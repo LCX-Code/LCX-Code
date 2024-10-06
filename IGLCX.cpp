@@ -118,7 +118,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
         int bestPathLengthThroughDelNode = originalMakeSpan;
         Node *nodeBeforeBestInsertPos;
         for (int mid = 0; mid < machineCount; ++mid) {
-            if (mid == deleteNode->machineId)//Í¬Ò»»úÆ÷³¢ÊÔ
+            if (mid == deleteNode->machineId)//åŒä¸€æœºå™¨å°è¯•
             {
                 int a_point_offset = INT16_MIN;
                 Node *nodeBeforeAPoint = heads[mid];
@@ -133,7 +133,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                     //int f_start_time_of_node_before_A = INT32_MIN;
                     if (nodeBeforeAPoint->f_startTime + nodeBeforeAPoint->processTime
                         <= f_start_time_of_pre_stage) {
-                        //´ÓÉ¾³ıÎ»ÖÃÕıÏòÕÒAµã
+                        //ä»åˆ é™¤ä½ç½®æ­£å‘æ‰¾Aç‚¹
                         f_start_time_of_node_before_A = nodeBeforeAPoint->f_startTime;
                         Node *c_node = nodeBeforeAPoint->sucByMachine;
                         int f_star_time_c_node;
@@ -150,7 +150,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                             ++a_point_offset;
                         }
                     } else {
-                        //´ÓÉ¾³ıÎ»ÖÃ·´ÏòÕÒAµã
+                        //ä»åˆ é™¤ä½ç½®åå‘æ‰¾Aç‚¹
                         --a_point_offset;
                         nodeBeforeAPoint = nodeBeforeAPoint->preByMachine;
                         while (nodeBeforeAPoint->jobId != -1) {
@@ -177,7 +177,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                     //b_start_time_of_node_after_B = INT32_MIN;
                     if (nodeAfterBPoint->b_startTime + nodeAfterBPoint->processTime
                         <= b_start_time_of_suc_stage) {
-                        //´ÓÉ¾³ıÎ»ÖÃ·´ÏòÏòÕÒbµã
+                        //ä»åˆ é™¤ä½ç½®åå‘å‘æ‰¾bç‚¹
                         b_start_time_of_node_after_B = nodeAfterBPoint->b_startTime;
                         Node *c_node = nodeAfterBPoint->preByMachine;
                         int b_star_time_c_node;
@@ -194,7 +194,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                             ++b_point_offset;
                         }
                     } else {
-                        //´ÓÉ¾³ıÎ»ÖÃÕıÏòÕÒBµã
+                        //ä»åˆ é™¤ä½ç½®æ­£å‘æ‰¾Bç‚¹
                         --b_point_offset;
                         nodeAfterBPoint = nodeAfterBPoint->sucByMachine;
                         while (nodeAfterBPoint->jobId != -1) {
@@ -209,10 +209,10 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                 }
 
                 if (a_point_offset >= 0 && b_point_offset >= 0) {
-                    //ÓĞ½»¼¯£¬ÇÒ½»¼¯°üº¬É¾³ıÎ»ÖÃ£¬²»ÓÃ³¢ÊÔ£¬²»»á±äºÃ£¬²âÊÔÏÂÒ»»úÆ÷
+                    //æœ‰äº¤é›†ï¼Œä¸”äº¤é›†åŒ…å«åˆ é™¤ä½ç½®ï¼Œä¸ç”¨å°è¯•ï¼Œä¸ä¼šå˜å¥½ï¼Œæµ‹è¯•ä¸‹ä¸€æœºå™¨
                     continue;
                 } else if (a_point_offset < 0 && b_point_offset < 0) {
-                    //ÎŞ½»¼¯£¬AµãÔÚÉ¾³ıÎ»ÖÃÇ°£¬BµãÔÚÉ¾³ıÎ»ÖÃºó£¬´ÓÉ¾³ıÎ»ÖÃ¿ªÊ¼Õı·´ÏòÁ½¶Î¿¼ÂÇ
+                    //æ— äº¤é›†ï¼ŒAç‚¹åœ¨åˆ é™¤ä½ç½®å‰ï¼ŒBç‚¹åœ¨åˆ é™¤ä½ç½®åï¼Œä»åˆ é™¤ä½ç½®å¼€å§‹æ­£åå‘ä¸¤æ®µè€ƒè™‘
                     int longestValue;
                     Node *nodeBeforeInsertPos;
                     Node *nodeAfterInsertPos;
@@ -265,9 +265,9 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                     }
                 } else if (a_point_offset < 0) //a_point_offset < 0 && b_point_offset >= 0
                 {
-                    //AµãÔÚÉ¾³ıÎ»ÖÃÇ°£¬BµãÔÚÉ¾³ıÎ»ÖÃÇ°£¨Bµã¿ÉÄÜ¾ÍÊÇÉ¾³ıÎ»ÖÃ£©
+                    //Aç‚¹åœ¨åˆ é™¤ä½ç½®å‰ï¼ŒBç‚¹åœ¨åˆ é™¤ä½ç½®å‰ï¼ˆBç‚¹å¯èƒ½å°±æ˜¯åˆ é™¤ä½ç½®ï¼‰
                     if (-a_point_offset > b_point_offset) {
-                        //ÎŞ½»¼¯
+                        //æ— äº¤é›†
                         int longestValue;
                         Node *nodeAfterInsertPos = nodeAfterBPoint;
                         Node *nodeBeforeInsertPos = nodeAfterInsertPos->preByMachine;
@@ -295,7 +295,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                                              + nodeAfterInsertPos->sucByStage->processTime);
                         }
                     } else {
-                        //ÓĞ½»¼¯
+                        //æœ‰äº¤é›†
                         int longestValue = f_start_time_of_pre_stage + b_start_time_of_suc_stage
                                            + deleteNode->processTime;
                         if (longestValue < bestPathLengthThroughDelNode) {
@@ -305,9 +305,9 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                     }
                 } else //a_point_offset >= 0 && b_point_offset < 0
                 {
-                    //BµãÔÚÉ¾³ıÎ»ÖÃºó£¬AµãÔÚÉ¾³ıÎ»ÖÃºó£¨Bµã¿ÉÄÜ¾ÍÊÇÉ¾³ıÎ»ÖÃ£©
+                    //Bç‚¹åœ¨åˆ é™¤ä½ç½®åï¼ŒAç‚¹åœ¨åˆ é™¤ä½ç½®åï¼ˆBç‚¹å¯èƒ½å°±æ˜¯åˆ é™¤ä½ç½®ï¼‰
                     if (-b_point_offset > a_point_offset) {
-                        //ÎŞ½»¼¯
+                        //æ— äº¤é›†
                         int longestValue;
                         Node *nodeBeforeInsertPos = nodeBeforeAPoint;
                         Node *nodeAfterInsertPos = nodeBeforeInsertPos->sucByMachine;
@@ -335,7 +335,7 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                                              + nodeBeforeInsertPos->preByStage->processTime);
                         }
                     } else {
-                        //ÓĞ½»¼¯
+                        //æœ‰äº¤é›†
                         int longestValue = f_start_time_of_pre_stage + b_start_time_of_suc_stage
                                            + deleteNode->processTime;
                         if (longestValue < bestPathLengthThroughDelNode) {
@@ -345,14 +345,14 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                     }
                 }
             } else {
-                //ÆäËû»úÆ÷³¢ÊÔ
+                //å…¶ä»–æœºå™¨å°è¯•
                 int f_complete_time_machine = tails[mid]->f_startTime;
                 int b_complete_time_machine = heads[mid]->b_startTime;
 
                 if (f_complete_time_machine - f_start_time_of_pre_stage
                     >= b_complete_time_machine - b_start_time_of_suc_stage) {
-                    //ÕıÏòÕÒAºÍB
-                    //ÕıÏòÑ°ÕÒ²åÈëÎ»ÖÃ
+                    //æ­£å‘æ‰¾Aå’ŒB
+                    //æ­£å‘å¯»æ‰¾æ’å…¥ä½ç½®
                     bool is_find_A_pos = false;
                     //bool is_find_B_pos = false;
                     int longestValue;
@@ -362,13 +362,13 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                         if (!is_find_A_pos &&
                             nodeAfterInsertPos->f_startTime + nodeAfterInsertPos->processTime
                             > f_start_time_of_pre_stage) {
-                            //·¢ÏÖAµã
+                            //å‘ç°Aç‚¹
                             is_find_A_pos = true;
                         }
 
                         if (nodeAfterInsertPos->b_startTime + nodeAfterInsertPos->processTime
                             <= b_start_time_of_suc_stage) {
-                            //·¢ÏÖBµã
+                            //å‘ç°Bç‚¹
                             longestValue =
                                     std::max(f_start_time_of_pre_stage,
                                              nodeBeforeInsertPos->f_startTime + nodeBeforeInsertPos->processTime)
@@ -397,9 +397,9 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                         nodeAfterInsertPos = nodeBeforeInsertPos->sucByMachine;
                     }
                 } else {
-                    //ÕıÏòÕÒBºÍA
+                    //æ­£å‘æ‰¾Bå’ŒA
                     //std::cout << "<-";
-                    //·´ÏòÑ°ÕÒ²åÈëÎ»ÖÃ
+                    //åå‘å¯»æ‰¾æ’å…¥ä½ç½®
                     bool is_find_B_pos = false;
                     //bool is_find_A_pos = false;
                     int longestValue;
@@ -409,13 +409,13 @@ int IGLCX::construction(Solution &solution, std::vector<int> &erased_jobs) {
                         if (!is_find_B_pos &&
                             nodeBeforeInsertPos->b_startTime + nodeBeforeInsertPos->processTime
                             > b_start_time_of_suc_stage) {
-                            //·¢ÏÖBµã
+                            //å‘ç°Bç‚¹
                             is_find_B_pos = true;
                         }
 
                         if (nodeBeforeInsertPos->f_startTime + nodeBeforeInsertPos->processTime
                             <= f_start_time_of_pre_stage) {
-                            //·¢ÏÖAµã
+                            //å‘ç°Aç‚¹
                             longestValue =
                                     f_start_time_of_pre_stage
                                     + deleteNode->processTime
@@ -586,16 +586,16 @@ int Solution::evaluate() const {
     int num_of_stages = problem.getNumOfStages();
     const std::vector<Job> &jobs = problem.getJobs();
 
-    //¸÷¹¤ĞòµÄÕıÏòÍê¹¤Ê±¼ä
+    //å„å·¥åºçš„æ­£å‘å®Œå·¥æ—¶é—´
     std::vector<std::vector<int>> c_time(num_of_jobs, std::vector<int>(num_of_stages));
-    //Ã¿¸ö½×¶ÎÃ¿¸ö»úÆ÷µÄ¿ÉÓÃÊ±¼ä
+    //æ¯ä¸ªé˜¶æ®µæ¯ä¸ªæœºå™¨çš„å¯ç”¨æ—¶é—´
     std::vector<std::vector<int>> m_idle_time(num_of_stages);
     for (int s = 0; s < problem.getNumOfStages(); s++) {
         m_idle_time[s].resize(problem.getNumOfMachinesInStage(s));
     }
 
     int span = 0;
-    //µÚÒ»½×¶Î
+    //ç¬¬ä¸€é˜¶æ®µ
     for (auto job_id: jobSequence) {
         int mt = min_element(m_idle_time[0].begin(), m_idle_time[0].end()) - m_idle_time[0].begin();
         c_time[job_id][0] = m_idle_time[0][mt] + jobs[job_id].getProcessTime(0);
@@ -603,7 +603,7 @@ int Solution::evaluate() const {
     }
 
     std::vector<int> sequence = jobSequence;
-    //ÆäËû½×¶Î£¬FIFOºÍFAM
+    //å…¶ä»–é˜¶æ®µï¼ŒFIFOå’ŒFAM
     for (int s = 1; s < num_of_stages; ++s) {
         std::sort(sequence.begin(), sequence.end(), [&](int job1, int job2) {
             return c_time[job1][s - 1] < c_time[job2][s - 1];
@@ -878,6 +878,7 @@ std::pair<int, int> IGLCX::Evolution2(const HFS_Problem &problem) {
         if (span <= original_span) {
             original_span = span;
             original_job_sequence = solution.getJobSequence();
+            flag = true;
         } else {
             flag = false;
             double rand_value = wyt_rand(0.0, 1.0);
